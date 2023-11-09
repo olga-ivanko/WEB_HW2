@@ -150,7 +150,7 @@ FUNCTIONS = {
     "close": func_good_bye,
     "exit": func_good_bye,
     "remove": func_remove,
-    "": func_good_bye,
+    "": unknown
 }
 
 
@@ -158,7 +158,6 @@ def parser(text: str):
     for func in FUNCTIONS.keys():
         if text.startswith(func):
             return func, text[len(func) :].strip().split()
-    return unknown, []
 
 
 def main():
