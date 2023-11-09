@@ -84,24 +84,11 @@ def del_empty_folders(sorted_folder_path: Path) -> None:
 
 def record_result(sorted_folder: Path) -> None:
     for i in sorted_folder.joinpath("Other").iterdir():
-        extentions.get(
-            "non_idintified",
-        ).append(i.suffix)
+        extentions.get("non_idintified",).append(i.suffix)
     print(
-        " non-idintified extentions: ",
-        set(
-            extentions.get(
-                "non_idintified",
-            )
-        ),
-        "\n",
-        "idintified extentions: ",
-        set(
-            extentions.get(
-                "identified",
-            )
-        ),
-    )
+        " non-idintified extentions: ", set(extentions.get("non_idintified",)), 
+          "\n", "idintified extentions: ", set(extentions.get("identified",)),
+          )
     return None
 
 
