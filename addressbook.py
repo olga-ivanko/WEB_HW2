@@ -67,6 +67,7 @@ class Birthday(Field):
         else:
             self.__value = new_value.date()
 
+
 class Email(Field):
     def __init__(self):
         super().__init__()
@@ -75,19 +76,19 @@ class Email(Field):
     @property
     def value(self):
         return self.__value
-    
+
     @value.setter
-    def value(self, new_value:str):
+    def value(self, new_value: str):
         self.__value = new_value
 
 
 class Record:
-    def __init__(self, name: Name, address = '',email = '' ):
+    def __init__(self, name: Name, address="", email=""):
         new_name = Name()
         new_name.value = name
         self.name = new_name
         self.phones = []
-        self.birthday = Birthday() 
+        self.birthday = Birthday()
         self.email = email
         self.address = address
 
@@ -138,9 +139,9 @@ class Record:
                 self.birthday.value,
                 self.days_to_birthday(),
                 self.email,
-                self.address
+                self.address,
             )
-        
+
         elif self.birthday.value:
             return "Contact name: {:<5}| phones: {:<12}| birthday: {} ({} days to birthday)| email: {}| address: {}".format(
                 self.name.value,
@@ -148,7 +149,7 @@ class Record:
                 self.birthday.value,
                 self.days_to_birthday(),
                 self.email,
-                self.address
+                self.address,
             )
 
         elif self.email or self.address:
@@ -156,9 +157,9 @@ class Record:
                 self.name.value,
                 "; ".join(p.value for p in self.phones),
                 self.email,
-                self.address
+                self.address,
             )
-        
+
         return "Contact name: {:<5}| phones: {:<12}|".format(
             self.name.value, "; ".join(p.value for p in self.phones)
         )
@@ -193,18 +194,18 @@ class AddressBook(UserDict):
         if indx > 0:
             yield print_page
 
-    def load(self, file_name):
+    def load(self):
+        file_name = "book.bin"
         try:
             with open(file_name, "rb") as fb:
                 self.data = pickle.load(fb)
-                print(
-                    f"AddressBook with {len(self.data)} contacts is succesfuly uploaded"
-                )
+                print(f"AddressBook with {len(self.data)} contacts is succesfuly uploaded")
                 return self.data
         except FileNotFoundError:
             book = AddressBook()
 
-    def save(self, file_name):
+    def save(self):
+        file_name = "book.bin"
         with open(file_name, "wb") as fb:
             pickle.dump(self.data, fb)
             print("AddressBook is saved as book.bin")
