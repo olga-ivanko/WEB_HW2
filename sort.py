@@ -9,9 +9,10 @@ SUBFOLDER_NAME_TO_EXTENSIONS = {
     "video" : (".avi", ".mp4", ".ogg", ".wav", ".amr", ".mov",  ".mkv", ".wmv", ".mpg", ".mpeg", ".m4v"),
     "audio" : (".mp3", ".wav", ".ogg", ".flac", ".aif", ".mid", ".midi", ".wma"),
     "documents": (".doc", ".docx", ".txt", ".pdf", ".pptx"),
-    "images" : (".jpg", ".png", ".bmp", ".jpeg", ".svg", ".tif", ".tiff"),
-    "spreadsheets" : (".xlsx", ".xls", ".xlsm", ".xml"),
-    "presentation" : (".pptx", ".ppt")}
+    "images": (".jpg", ".png", ".bmp", ".jpeg", ".svg", ".tif", ".tiff"),
+    "spreadsheets": (".xlsx", ".xls", ".xlsm", ".xml"),
+    "presentation": (".pptx", ".ppt"),
+}
 
 CYRILLIC_SYMBOLS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяєіїґ"
 TRANSLATION = ("a", "b", "v", "g", "d", "e", "e", "j", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u",
@@ -92,24 +93,9 @@ def record_result(sorted_folder: Path) -> None:
     return None
 
 
-def main() -> str:
-    try:
-        path = Path(sys.argv[1])
-    except IndexError:
-        print("No path to folder")
-        return None
-
-    if not path.exists():
-        print("Folder does not exists")
-        return None
-
-    sort_folder(path)
-    archive_unpack(path)
-    del_empty_folders(path)
-    record_result(path)
-    print("All Ok")
-    return None
-
-
-if __name__ == "__main__":
-    main()
+def main(imput_path: Path) -> str:
+    sort_folder(imput_path)
+    archive_unpack(imput_path)
+    del_empty_folders(imput_path)
+    record_result(imput_path)
+    return f"Your folder {imput_path} is sorted"

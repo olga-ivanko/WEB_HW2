@@ -1,6 +1,8 @@
 from addressbook import Record, AddressBook
 from notebook import NoteBook
+import sort
 from datetime import datetime
+from pathlib import Path
 import re
 
 file_name = "book.bin"
@@ -39,7 +41,9 @@ def func_normalize_phone(phone):
 
 
 def func_add_note(*args):
-    title = " ".join(args) #тут може додати перевірку, щоб не створювались записи без тайтлів? 
+    title = " ".join(
+        args
+    )  # тут може додати перевірку, щоб не створювались записи без тайтлів?
     if title not in note_book:
         input_text = input("Input text:\n")
         question = input("want to add tags? (Y/N)")
@@ -192,6 +196,15 @@ def unknown(*args):
     return "Unknown command. Try again."
 
 
+def func_sort_folder(*args):
+    user_input = input("Enter directory path: ")
+    path = Path(user_input)
+    if path.exists():
+        return sort.main(path)
+    else:
+        return f"The path {path} does not exist."
+
+
 def func_good_bye(*args):
     book.save(file_name)
     print(f"Good bye!")
@@ -216,6 +229,7 @@ FUNCTIONS = {
     "close": func_good_bye,
     "exit": func_good_bye,
     "remove": func_remove,
+    "sort folder": func_sort_folder,
     "": unknown,
 }
 
