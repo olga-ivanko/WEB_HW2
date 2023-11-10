@@ -21,8 +21,8 @@ def user_error(func):
             return "Unknown rec_id. Try another or use help."
         except ValueError:
             return "Unknown or wrong format. Check phone and/or birthday"
-        # except AttributeError:
-        #     return "Contacts was not found"
+        except AttributeError:
+            return "Contacts was not found"
 
     return inner
 
@@ -138,26 +138,6 @@ def func_add(*args):
                 new_address = user
                 new_record.add_address(new_address)
                 print('Add address')
-
-        #Тут перший варіант додавання контакту. За примусовим порядком
-        # new_email = None
-        # new_address = None
-        # new_birthday = datetime(
-        #     year=int(args[2][6:]), month=int(args[2][3:5]), day=int(args[2][:2])
-        # )
-        # contact_birtday = new_birthday.date().strftime("%d %B %Y")
-        # new_record.add_birthday(new_birthday)
-
-        # try:
-        #     new_email = args[3]
-        #     new_record.add_email(new_email)
-        # except IndexError:
-        #     ...
-        # try:
-        #     new_address = args[4]
-        #     new_record.add_address(new_address)
-        # except IndexError:
-        #     ...
 
         book[rec_id] = new_record
         if new_address:
