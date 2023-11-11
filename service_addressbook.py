@@ -1,4 +1,5 @@
 from datetime import datetime
+from birthday_functions import func_birthdays_within_days
 from addressbook import AddressBook, Record
 from pathlib import Path
 import sort
@@ -91,7 +92,7 @@ def func_add(*args):
         return f"Record {rec_id = }, {new_phone = }, {contact_birtday = } added"
 
     book[rec_id] = new_record
-    return f"Record {rec_id = }, {new_phone = } added"
+    return f"Record {rec_id = }, {new_phone = } added" 
 
 
 @user_error
@@ -205,6 +206,7 @@ def func_sort_folder(*args):
         return f"The path {path} does not exist."
 
 
+
 FUNCTIONS = {
     "hello": func_hello,
     "add": func_add,
@@ -218,5 +220,8 @@ FUNCTIONS = {
     "birthday": add_birthday,
     "remove": func_remove,
     "sort folder": func_sort_folder,
+    "days":func_birthdays_within_days,
     "": unknown,
+    
+    
 }

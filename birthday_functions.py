@@ -1,0 +1,28 @@
+from datetime import datetime
+from addressbook import AddressBook
+
+def func_birthdays_within_days():
+    book = AddressBook()
+    book.load()
+    
+    try:
+        days = int(input("Enter number of days: "))
+    except ValueError:
+        return "Invalid number of days. Please enter an integer"
+
+    current_date = datetime.now().date()
+
+    matching_birthdays = []
+    for record in book.values():
+        if record.birthday.value:
+            days_to_birthday = record.days_to_birthday()
+            if 0 <= days_to_birthday <= days:
+                matching_birthdays.append(record)
+
+    if not matching_birthdays:
+        return f"No contact with birthdays for the next {days} days."
+
+    result = ""
+    for record in matching_birthdays:
+        result += f"{record}\n"
+    return result
