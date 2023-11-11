@@ -35,8 +35,8 @@ def user_error(func):
             return "No title entered "
         except KeywordError:
             return "No keyword entered "
-        # except TypeError:
-        #     return "Too much arguments"
+        except TypeError:
+            return "Too much arguments"
         except KeyError:
             return "No notes with this name"
     return inner
