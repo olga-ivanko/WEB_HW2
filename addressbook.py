@@ -146,7 +146,7 @@ class Record:
             return days_to_bd.days
 
     def __str__(self):
-        if self.birthday.value:
+        if self.birthday.value != 'unknown':
             return "Contact name: {:<5}| phones: {:<12}| birthday: {} ({} days to birthday), email: {}, address: {}".format(
                 self.name.value,
                 "; ".join(p.value for p in self.phones),

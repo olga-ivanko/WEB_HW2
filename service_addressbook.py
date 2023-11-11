@@ -19,9 +19,8 @@ def user_error(func):
             return "Unknown rec_id. Try another or use help."
         except ValueError:
             return "Unknown or wrong format. Check phone and/or birthday"
-
-    #        except AttributeError:
-    #            return "Contacts was not found"
+        except AttributeError:
+            return "Contacts was not found"
 
     return inner
 
@@ -61,7 +60,7 @@ def func_add(*args):
         new_address = None
         contact_birtday = None
         while True:
-            user_input = input("Enter your choice: ")
+            user_input = input("Enter your choice: ").lower()
             if user_input == "back":
                 break
             if user_input == "birthday":
@@ -104,7 +103,7 @@ def add_birthday(*args):
         year=int(birth[6:]), month=int(birth[3:5]), day=int(birth[:2])
     )
     book.find(rec_id).add_birthday(new_birthday)
-    return "Add Birthday completed"
+    return f"Add Birthday completed: {birth = }"
 
 
 @user_error
@@ -114,7 +113,7 @@ def add_email(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_email(email)
-    return "Add email completed"
+    return f"Add email completed: {email = }"
 
 
 def func_address(*args):
@@ -123,7 +122,7 @@ def func_address(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_address(address)
-    return "Add address completed"
+    return f"Add address completed: {address =}"
 
 
 @user_error
@@ -213,9 +212,9 @@ FUNCTIONS = {
     "show all": func_show_all,
     "show": func_show,
     "find": func_find,
-    "email": add_email,
-    "city": func_address,
-    "birthday": add_birthday,
+    "email_add": add_email,
+    "adress_add": func_address,
+    "birthday_add": add_birthday,
     "remove": func_remove,
     "sort folder": func_sort_folder,
     "": unknown,
