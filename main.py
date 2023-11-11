@@ -1,5 +1,5 @@
 from servicenote import OPERATORS, note_book
-from service_addressbook import FUNCTIONS, book, user_error
+from service_addressbook import FUNCTIONS, book
 
 
 def func_good_bye():
