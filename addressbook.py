@@ -54,7 +54,7 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self):
         super().__init__()
-        self.__value = None
+        self.__value = "unknown"
 
     @property
     def value(self):
@@ -71,7 +71,21 @@ class Birthday(Field):
 class Email(Field):
     def __init__(self):
         super().__init__()
-        self.__value = None
+        self.__value = "no email"
+
+    @property
+    def value(self):
+        return self.__value
+
+    @value.setter
+    def value(self, new_value: str):
+        self.__value = new_value
+
+
+class Address(Field):
+    def __init__(self):
+        super().__init__()
+        self.__value = "no address"
 
     @property
     def value(self):
@@ -83,14 +97,14 @@ class Email(Field):
 
 
 class Record:
-    def __init__(self, name: Name, address="", email=""):
+    def __init__(self, name: Name):
         new_name = Name()
         new_name.value = name
         self.name = new_name
         self.phones = []
         self.birthday = Birthday()
-        self.email = email
-        self.address = address
+        self.email = Email()
+        self.address = Address()
 
     def add_phone(self, phone):
         new_phone = Phone(phone)
@@ -115,10 +129,10 @@ class Record:
         self.birthday.value = birthday
 
     def add_email(self, email):
-        self.email = email
+        self.email.value = email
 
     def add_address(self, address):
-        self.address = address
+        self.address.value = address
 
     def days_to_birthday(self):
         today = datetime.now().date()
@@ -132,37 +146,23 @@ class Record:
             return days_to_bd.days
 
     def __str__(self):
-        if self.address and self.email and self.birthday.value:
+        if self.birthday.value:
             return "Contact name: {:<5}| phones: {:<12}| birthday: {} ({} days to birthday), email: {}, address: {}".format(
                 self.name.value,
                 "; ".join(p.value for p in self.phones),
                 self.birthday.value,
                 self.days_to_birthday(),
-                self.email,
-                self.address,
+                self.email.value,
+                self.address.value,
             )
 
-        elif self.birthday.value:
-            return "Contact name: {:<5}| phones: {:<12}| birthday: {} ({} days to birthday)| email: {}| address: {}".format(
-                self.name.value,
-                "; ".join(p.value for p in self.phones),
-                self.birthday.value,
-                self.days_to_birthday(),
-                self.email,
-                self.address,
-            )
-
-        elif self.email or self.address:
+        else:
             return "Contact name: {:<5}| phones: {:<12}| email: {}| address: {}".format(
                 self.name.value,
                 "; ".join(p.value for p in self.phones),
                 self.email,
                 self.address,
             )
-
-        return "Contact name: {:<5}| phones: {:<12}|".format(
-            self.name.value, "; ".join(p.value for p in self.phones)
-        )
 
 
 class AddressBook(UserDict):
@@ -199,7 +199,9 @@ class AddressBook(UserDict):
         try:
             with open(file_name, "rb") as fb:
                 self.data = pickle.load(fb)
-                print(f"AddressBook with {len(self.data)} contacts is succesfuly uploaded")
+                print(
+                    f"AddressBook with {len(self.data)} contacts is succesfuly uploaded"
+                )
                 return self.data
         except FileNotFoundError:
             book = AddressBook()

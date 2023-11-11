@@ -1,5 +1,3 @@
-from addressbook import Record, AddressBook
-from datetime import datetime
 from servicenote import OPERATORS, note_book
 from service_addressbook import FUNCTIONS, book
 from pathlib import Path
@@ -25,8 +23,6 @@ def parser(text: str):
     for func in FUNCTIONS.keys():
         if text.startswith(func):
             return func, text[len(func) :].strip().split()
-
-
 
 
 def main():
