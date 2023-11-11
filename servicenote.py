@@ -35,8 +35,8 @@ def user_error(func):
             return "No title entered "
         except KeywordError:
             return "No keyword entered "
-        except TypeError:
-            return "Too much arguments"
+        # except TypeError:
+        #     return "Too much arguments"
         except KeyError:
             return "No notes with this name"
     return inner
@@ -72,8 +72,26 @@ def func_add_note(*args):
 @user_error
 def func_edit_note(*args):
     title = args_to_title(args)
-    input_new_text = input_t("Input new text. Type 'save' to finish:")
-    note_book.edit_note(title, input_new_text)
+    text_note = note_book[title]['text'].split('\n')
+    flag = False
+    while True:
+        if flag == False:
+            for i, line in enumerate(text_note):
+                print (f'{i+1}: {line}')
+            print ('Enter line number to edit (Type "save" to finish:):')
+        user_input = input()
+        if user_input == 'save':
+            break
+        if user_input.isdigit() and 0 <= int(user_input) <= len(text_note):
+            user_input =int(user_input)
+            edited_line = input(f"Edit line {user_input}: {text_note[user_input - 1]}\n")
+            text_note[user_input - 1] = edited_line
+            flag = False
+        else:
+            print('Invalid input. Enter line number to edit (0 to exit):')
+            flag = True
+        new_text = '\n'.join(text_note)    
+    note_book.edit_note(title, new_text)
     return "ok"
 
 
