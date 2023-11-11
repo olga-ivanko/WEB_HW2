@@ -19,8 +19,9 @@ def user_error(func):
             return "Unknown rec_id. Try another or use help."
         except ValueError:
             return "Unknown or wrong format. Check phone and/or birthday"
-        except AttributeError:
-            return "Contacts was not found"
+
+    #        except AttributeError:
+    #            return "Contacts was not found"
 
     return inner
 
@@ -84,13 +85,13 @@ def func_add(*args):
 
         book[rec_id] = new_record
         if new_address:
-            return f"Add record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = }, {new_address = }"
+            return f"Record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = }, {new_address = } added"
         elif new_email:
-            return f"Add record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = }"
-        return f"Add record {rec_id = }, {new_phone = }, {contact_birtday = }"
+            return f"Record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = } added"
+        return f"Record {rec_id = }, {new_phone = }, {contact_birtday = } added"
 
     book[rec_id] = new_record
-    return f"Add record {rec_id = }, {new_phone = }"
+    return f"Record {rec_id = }, {new_phone = } added"
 
 
 @user_error
@@ -217,5 +218,5 @@ FUNCTIONS = {
     "birthday": add_birthday,
     "remove": func_remove,
     "sort folder": func_sort_folder,
-    "": unknown
+    "": unknown,
 }
