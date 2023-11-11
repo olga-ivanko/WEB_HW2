@@ -1,6 +1,5 @@
 from servicenote import OPERATORS, note_book
-from service_addressbook import FUNCTIONS, book
-from pathlib import Path
+from service_addressbook import FUNCTIONS, book, user_error
 
 
 def func_good_bye():
@@ -10,17 +9,16 @@ def func_good_bye():
     exit()
 
 
-EXIT = ["good bye", "close", "exit"]
+exit_commands = ["good bye", "close", "exit"]
+EXIT = {command: func_good_bye for command in exit_commands}
+COMMANDS = {}
+COMMANDS.update(EXIT)
+COMMANDS.update(OPERATORS)
+COMMANDS.update(FUNCTIONS)
+
 
 def parser(text: str):
-    for func in EXIT:
-        if text == func:
-            return func_good_bye()
-    for func in OPERATORS.keys():
-        if text.startswith(func):
-            return func, text[len(func) :].strip().split()
-
-    for func in FUNCTIONS.keys():
+    for func in COMMANDS.keys():
         if text.startswith(func):
             return func, text[len(func) :].strip().split()
 
@@ -29,16 +27,8 @@ def main():
     while True:
         user_input = input(">>>")
         func, data = parser(user_input.lower())
-        if func in EXIT:
-            current_func = func_good_bye
-        elif func in FUNCTIONS:
-            current_func = FUNCTIONS.get(func)
-            print(current_func(*data))
-        elif func in OPERATORS:
-            current_func = OPERATORS.get(func)
-            print(current_func(*data))
-
-
+        current_func = COMMANDS.get(func)
+        print(current_func(*data))
 
 
 if __name__ == "__main__":
