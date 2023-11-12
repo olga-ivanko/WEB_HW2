@@ -172,20 +172,21 @@ def func_show(*args):
 
 
 @user_error
-def func_find(*args):
-    line = ""
-    for record in book.values():
-        str_rec = str(record.name)
-        for ph in record.phones:
-            str_rec += str(ph)
-        found_rec = re.findall(args[0], str_rec)
-        if len(found_rec) != 0:
-            line += f"{record}\n"
-
-    if len(line) == 0:
-        return f'the search for key "{args[0]}" gave no results. Try other key.'
-    print(f'result for "{args[0]}" search:')
-    return line
+def func_find(args):
+    if len(args) > 2:
+        line = ""
+        for record in book.values():
+            str_rec = str(record.name)
+            for ph in record.phones:
+                str_rec += str(ph)
+            found_rec = re.findall(args[0], str_rec)
+            if len(found_rec) != 0:
+                line += f"{record}\n"
+        if len(line) == 0:
+            return f'the search for key "{args[0]}" gave no results. Try other key.'
+        print(f'result for "{args[0]}" search:')
+        return line
+    return "Please enter 3 or more symbols for search"
 
 
 @user_error
