@@ -3,6 +3,7 @@ from service_addressbook import FUNCTIONS, book
 from pathlib import Path
 
 
+
 def func_good_bye():
     book.save()
     note_book.save_data()
