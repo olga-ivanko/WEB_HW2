@@ -20,7 +20,7 @@ def user_error(func):
         except KeyError:
             return "Unknown rec_id. Try another or use help."
         except ValueError:
-            return "Unknown or wrong format. Check phone and/or birthday"
+            return "Unknown or wrong format. Try again"
         except AttributeError:
             return "Contacts was not found"
 
@@ -70,17 +70,17 @@ def func_add(*args):
                 )
                 contact_birthday = new_birthday.date().strftime("%d %B %Y")
                 new_record.add_birthday(new_birthday)
-                print("Birthday added")
+                print(f"Birthday {contact_birthday} added to user {new_record.name.value}")
             elif user_input == "email":
                 user = input("Enter email: ")
                 new_email = user
                 new_record.add_email(new_email)
-                print(f"main {new_email} added to user {new_record.name.value}")
+                print(f"Email {new_email} added to user {new_record.name.value}")
             elif user_input == "address":
                 user = input("Enter address: ")
                 new_address = user
                 new_record.add_address(new_address)
-                print("Address added")
+                print(f"Address {new_address} added to user {new_record.name.value}")
 
         book[rec_id] = new_record
 
@@ -147,7 +147,7 @@ def add_birthday(*args):
         year=int(birth[6:]), month=int(birth[3:5]), day=int(birth[:2])
     )
     book.find(rec_id).add_birthday(new_birthday)
-    return f"Add Birthday completed: {birth = }"
+    return f"Birthday { book.find(rec_id).birthday.value} added to record {rec_id}"
 
 
 @user_error
@@ -157,7 +157,7 @@ def add_email(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_email(email)
-    return f"Add email completed: {email = }"
+    return f"Email { book.find(rec_id).email.value} added to record {rec_id}"
 
 
 def func_address(*args):
@@ -166,7 +166,7 @@ def func_address(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_address(address)
-    return f"Add address completed: {address =}"
+    return f"Address { book.find(rec_id).address.value} added to record {rec_id}"
 
 
 @user_error

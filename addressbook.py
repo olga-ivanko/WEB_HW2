@@ -2,6 +2,7 @@ from collections import UserDict
 from collections.abc import Iterator
 from datetime import datetime
 import pickle
+import re
 
 
 class Field:
@@ -79,6 +80,8 @@ class Email(Field):
 
     @value.setter
     def value(self, new_value: str):
+        if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', new_value):
+            raise ValueError("Check mail format")
         self.__value = new_value
 
 
