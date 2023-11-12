@@ -57,9 +57,9 @@ def func_add(*args):
         return f"Check the phone: {phone}. Wrong format."
 
     if len(args) >= 2:
-        new_email = None
-        new_address = None
-        contact_birtday = None
+#        new_email = None
+#        new_address = None
+#        contact_birtday = None
         while True:
             user_input = input("Enter your choice: ").lower()
             if user_input == "back":
@@ -94,6 +94,7 @@ def func_add(*args):
     return f"Record {rec_id = }, {new_phone = } added"
 
 
+@user_error
 def func_edit_record(*args):
     rec_id = args[0].lower()
     if not rec_id in book.keys():
@@ -247,7 +248,8 @@ def func_sort_folder(*args):
         return sort.main(path)
     else:
         return f"The path {path} does not exist."
-    
+
+
 def func_good_bye():
     book.save()
     note_book.save_data()
@@ -273,8 +275,6 @@ FUNCTIONS = {
     "birthday_add": add_birthday,
     "remove": func_remove,
     "sort folder": func_sort_folder,
-    "days":func_birthdays_within_days,
+    "days": func_birthdays_within_days,
     "": unknown,
-    
-    
 }
