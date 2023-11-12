@@ -14,6 +14,14 @@ def input_t(prompt):
         lines.append(line)
     return "\n".join(lines)
 
+def args_to_title(args=None):
+    if not args:
+        raise IndexError
+    title = " ".join(args)
+    if title not in note_book:
+        raise KeyError
+    return title
+
 
 class KeywordError(Exception):
     pass
@@ -29,7 +37,8 @@ def user_error(func):
             return "No keyword entered "
         except TypeError:
             return "Too much arguments"
-
+        except KeyError:
+            return "No notes with this name"
     return inner
 
 
@@ -40,7 +49,7 @@ def func_add_note(*args):
         raise IndexError
     if title not in note_book:
         input_text = input_t("Enter the text. Type 'save' to finish:")
-        question = input("want to add tags? (Y/N)")
+        question = input("Want to add tags? (Y/N)")
         if question == "y".casefold():
             tags_input = input_t("Input tags. Type 'save' to finish:")
             tags = ["#" + tag.strip() for tag in tags_input.split()]
@@ -53,7 +62,7 @@ def func_add_note(*args):
             note_book.add_note(title, input_text)
             return "ok"
     else:
-        question = input(f"want edit note {title}? (Y/N)")
+        question = input(f"Note {title} already exist. Want ещ edit note? (Y/N)")
         if question == "y".casefold():
             return func_edit_note(*args)
         else:
@@ -62,19 +71,45 @@ def func_add_note(*args):
 
 @user_error
 def func_edit_note(*args):
-    title = " ".join(args)
-    input_new_text = input_t("Input new text. Type 'save' to finish:")
-    note_book.edit_note(title, input_new_text)
+    title = args_to_title(args)
+    text_note = note_book[title]['text'].split('\n')
+    flag = False
+    while True:
+        if flag == False:
+            for i, line in enumerate(text_note):
+                print (f'{i+1}: {line}')
+            print ('Enter line number to edit (Type "save" to finish:):')
+        user_input = input()
+        if user_input == 'save':
+            break
+        if user_input.isdigit() and 0 <= int(user_input) <= len(text_note):
+            user_input =int(user_input)
+            edited_line = input(f"Edit line {user_input}: {text_note[user_input - 1]}\n")
+            text_note[user_input - 1] = edited_line
+            flag = False
+        else:
+            print('Invalid input. Enter line number to edit (0 to exit):')
+            flag = True
+        new_text = '\n'.join(text_note)    
+    note_book.edit_note(title, new_text)
     return "ok"
 
 
 @user_error
 def func_edit_tags(*args):
-    title = " ".join(args)
+    title = args_to_title(args)
     input_new_tags = input_t("Input new tags. Type 'save' to finish:")
     new_tags = ["#" + tag.strip() for tag in input_new_tags.split()]
     note_book.edit_note(title, None, new_tags)
-    return "all ok"
+    return "ok"
+
+@user_error
+def func_add_tags(*args):
+    title = args_to_title(args)
+    input_new_tags = input_t("Input new tags. Type 'save' to finish:")
+    new_tags = ['#' + tag.strip() for tag in input_new_tags.split()]
+    note_book[title]["tags"].extend(new_tags)
+    return "ok"
 
 
 @user_error
@@ -113,10 +148,12 @@ def func_delete_notes(*args):
 
 OPERATORS = {
     "add note": func_add_note,  # add note заголовок нотатку --> далі по підказкам
+    "add tags": func_add_tags,  # add tags заголовок --> додасть нові теги до уже існуючих
     "edit note": func_edit_note,  # edit note заголовок --> далі по підказкам
     "edit tags": func_edit_tags,  # edit tags заголовок --> далі по підказкам
     "show notes": func_show_notes,  # show notes  (тут без заголовку)
     "show note": func_search_notes,  # show note (будь яку слово з заголовку або #тег)
     "sort notes": func_sort_notes,  # sort notes (без аргументів) - сортує, виводить та зберігає новий порядок нотатків, сортування за кількістю тегів, як замовляв викладач
-    "delete notes": func_delete_notes,
+    "delete notes": func_delete_notes # якщо вказати заголовок, то видалиться запис, якщо без аргументів, то видаляться всі записи, після підтвердження видалення
+
 }

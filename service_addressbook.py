@@ -2,6 +2,7 @@ from datetime import datetime
 from birthday_functions import func_birthdays_within_days
 from addressbook import AddressBook, Record
 from pathlib import Path
+from servicenote import note_book
 import sort
 import re
 
@@ -20,9 +21,8 @@ def user_error(func):
             return "Unknown rec_id. Try another or use help."
         except ValueError:
             return "Unknown or wrong format. Check phone and/or birthday"
-
-    #        except AttributeError:
-    #            return "Contacts was not found"
+        except AttributeError:
+            return "Contacts was not found"
 
     return inner
 
@@ -62,7 +62,7 @@ def func_add(*args):
         new_address = None
         contact_birtday = None
         while True:
-            user_input = input("Enter your choice: ")
+            user_input = input("Enter your choice: ").lower()
             if user_input == "back":
                 break
             if user_input == "birthday":
@@ -105,7 +105,7 @@ def add_birthday(*args):
         year=int(birth[6:]), month=int(birth[3:5]), day=int(birth[:2])
     )
     book.find(rec_id).add_birthday(new_birthday)
-    return "Add Birthday completed"
+    return f"Add Birthday completed: {birth = }"
 
 
 @user_error
@@ -115,7 +115,7 @@ def add_email(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_email(email)
-    return "Add email completed"
+    return f"Add email completed: {email = }"
 
 
 def func_address(*args):
@@ -124,7 +124,7 @@ def func_address(*args):
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_address(address)
-    return "Add address completed"
+    return f"Add address completed: {address =}"
 
 
 @user_error
@@ -174,20 +174,21 @@ def func_show(*args):
 
 
 @user_error
-def func_find(*args):
-    line = ""
-    for record in book.values():
-        str_rec = str(record.name)
-        for ph in record.phones:
-            str_rec += str(ph)
-        found_rec = re.findall(args[0], str_rec)
-        if len(found_rec) != 0:
-            line += f"{record}\n"
-
-    if len(line) == 0:
-        return f'the search for key "{args[0]}" gave no results. Try other key.'
-    print(f'result for "{args[0]}" search:')
-    return line
+def func_find(args):
+    if len(args) > 2:
+        line = ""
+        for record in book.values():
+            str_rec = str(record.name)
+            for ph in record.phones:
+                str_rec += str(ph)
+            found_rec = re.findall(args[0], str_rec)
+            if len(found_rec) != 0:
+                line += f"{record}\n"
+        if len(line) == 0:
+            return f'the search for key "{args[0]}" gave no results. Try other key.'
+        print(f'result for "{args[0]}" search:')
+        return line
+    return "Please enter 3 or more symbols for search"
 
 
 @user_error
@@ -204,8 +205,16 @@ def func_sort_folder(*args):
         return sort.main(path)
     else:
         return f"The path {path} does not exist."
+    
+def func_good_bye():
+    book.save()
+    note_book.save_data()
+    print(f"Good bye!")
+    exit()
 
 
+exit_commands = ["good bye", "close", "exit"]
+EXIT = {command: func_good_bye for command in exit_commands}
 
 
 FUNCTIONS = {
@@ -216,9 +225,9 @@ FUNCTIONS = {
     "show all": func_show_all,
     "show": func_show,
     "find": func_find,
-    "email": add_email,
-    "city": func_address,
-    "birthday": add_birthday,
+    "email_add": add_email,
+    "adress_add": func_address,
+    "birthday_add": add_birthday,
     "remove": func_remove,
     "sort folder": func_sort_folder,
     "days":func_birthdays_within_days,
