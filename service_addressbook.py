@@ -216,6 +216,7 @@ def func_good_bye():
 exit_commands = ["good bye", "close", "exit"]
 EXIT = {command: func_good_bye for command in exit_commands}
 
+
 FUNCTIONS = {
     "hello": func_hello,
     "add": func_add,

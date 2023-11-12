@@ -4,10 +4,13 @@ from terminal_tips import completer
 from prompt_toolkit import prompt
 
 
+
+
 COMMANDS = {}
 COMMANDS.update(EXIT)
 COMMANDS.update(OPERATORS)
 COMMANDS.update(FUNCTIONS)
+
 
 def parser(text: str):
     for func in COMMANDS.keys():
