@@ -36,7 +36,6 @@ def func_normalize_phone(phone):
         .replace("-", "")
         .replace(" ", "")
     )
-
     return new_phone
 
 
@@ -92,7 +91,50 @@ def func_add(*args):
         return f"Record {rec_id = }, {new_phone = }, {contact_birtday = } added"
 
     book[rec_id] = new_record
-    return f"Record {rec_id = }, {new_phone = } added" 
+    return f"Record {rec_id = }, {new_phone = } added"
+
+
+def func_edit_record(*args):
+    rec_id = args[0].lower()
+    if not rec_id in book.keys():
+        return f"Record do not exist"
+
+    record = book.find(rec_id)
+    print(record)
+    print(f"type what needs to be changed:\n phone \n email\n address \n birthday")
+    user_input = input("").lower()
+    if user_input == "phone":
+        print(
+            "type next command:\n add phone <new number>\n change <old number> <new number>"
+        )
+        user_input2 = input("").lower().split()
+        if user_input2[0] == "change":
+            record.edit_phone(user_input2[1], user_input2[2])
+            return f"Record updated as:\n {record}"
+        elif " ".join(user_input2[:2]) == "add phone":
+            record.add_phone(user_input2[2])
+            return f"Record updated as:\n {record}"
+        else:
+            return unknown()
+    elif user_input == "email":
+        if record.email.value != "no email":
+            print(f"current email is {record.email.value}.")
+        user_input2 = input("Print new email:\n")
+        record.email.value = user_input2.strip()
+        return f"Record updated as:\n {record}"
+    elif user_input == "address":
+        print(f"current addess is {record.address.value}.")
+        user_input2 = input("Print new address:\n")
+        record.address.value = user_input2.strip()
+        return f"Record updated as:\n {record}"
+    elif user_input == "birthday":
+        if record.birthday.value:
+            print(f"current addess is {record.birthday.value}.")
+            user_input2 = input("Print new birthday:\n")
+            record.a
+            return f"Record updated as:\n {record}"
+    else:
+        return unknown()
 
 
 @user_error
@@ -139,13 +181,13 @@ def func_change(*args):
         return f"Check the phone: {args[2]}. Wrong format."
 
     book.find(rec_id).edit_phone(old_phone, new_phone)
-    return f"Record {rec_id} is updated with nes phone: {book.get(rec_id).phones[0]}"
+    return f"Record {rec_id} is updated with new phone: {new_phone}"
 
 
 @user_error
 def func_phone(*args):
     rec_id = args[0]
-    return f"Phone of {rec_id} is {book.get(rec_id).phones[0]}"
+    return f"Phone(s) of {rec_id} is {book.get(rec_id).phones[0]}"
 
 
 def func_hello(*args):
@@ -220,6 +262,7 @@ EXIT = {command: func_good_bye for command in exit_commands}
 FUNCTIONS = {
     "hello": func_hello,
     "add": func_add,
+    "edit record": func_edit_record,
     "change": func_change,
     "phone": func_phone,
     "show all": func_show_all,
