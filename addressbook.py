@@ -108,8 +108,9 @@ class Record:
 
     def add_phone(self, phone):
         new_phone = Phone(phone)
-        new_phone.value = phone
-        self.phones.append(new_phone)
+        if not phone in "".join(p.value for p in self.phones):
+            new_phone.value = phone
+            self.phones.append(new_phone)
 
     def remove_phone(self, phone: str):
         self.phones.remove(self.find_phone(phone))

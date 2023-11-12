@@ -57,11 +57,10 @@ def func_add(*args):
         return f"Check the phone: {phone}. Wrong format."
 
     if len(args) >= 2:
-#        new_email = None
-#        new_address = None
-#        contact_birtday = None
         while True:
-            user_input = input("Enter your choice: ").lower()
+            user_input = input(
+                f"type field to add: \n  email / address / birthday \n type back to save\n"
+            ).lower()
             if user_input == "back":
                 break
             if user_input == "birthday":
@@ -69,7 +68,7 @@ def func_add(*args):
                 new_birthday = datetime(
                     year=int(user[6:]), month=int(user[3:5]), day=int(user[:2])
                 )
-                contact_birtday = new_birthday.date().strftime("%d %B %Y")
+                contact_birthday = new_birthday.date().strftime("%d %B %Y")
                 new_record.add_birthday(new_birthday)
                 print("Birthday added")
             elif user_input == "email":
@@ -84,14 +83,9 @@ def func_add(*args):
                 print("Address added")
 
         book[rec_id] = new_record
-        if new_address:
-            return f"Record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = }, {new_address = } added"
-        elif new_email:
-            return f"Record {rec_id = }, {new_phone = }, {contact_birtday = }, {new_email = } added"
-        return f"Record {rec_id = }, {new_phone = }, {contact_birtday = } added"
 
     book[rec_id] = new_record
-    return f"Record {rec_id = }, {new_phone = } added"
+    return f"Record added: \n {new_record}"
 
 
 @user_error
@@ -102,7 +96,7 @@ def func_edit_record(*args):
 
     record = book.find(rec_id)
     print(record)
-    print(f"type what needs to be changed:\n phone \n email\n address \n birthday")
+    print(f"type what needs to be changed:\n  phone / email / address / birthday")
     user_input = input("").lower()
     if user_input == "phone":
         print(
@@ -120,19 +114,24 @@ def func_edit_record(*args):
     elif user_input == "email":
         if record.email.value != "no email":
             print(f"current email is {record.email.value}.")
-        user_input2 = input("Print new email:\n")
-        record.email.value = user_input2.strip()
+        user_input2 = input("Print new email:\n").lower().strip()
+        record.email.value = user_input2
         return f"Record updated as:\n {record}"
     elif user_input == "address":
         print(f"current addess is {record.address.value}.")
-        user_input2 = input("Print new address:\n")
-        record.address.value = user_input2.strip()
+        user_input2 = input("Print new address:\n").lower().strip()
+        record.address.value = user_input2
         return f"Record updated as:\n {record}"
     elif user_input == "birthday":
         if record.birthday.value:
-            print(f"current addess is {record.birthday.value}.")
+            print(f"current birthday is {record.birthday.value}.")
             user_input2 = input("Print new birthday:\n")
-            record.a
+            new_birthday = datetime(
+                year=int(user_input2[6:]),
+                month=int(user_input2[3:5]),
+                day=int(user_input2[:2]),
+            )
+            record.add_birthday(new_birthday)
             return f"Record updated as:\n {record}"
     else:
         return unknown()
@@ -171,7 +170,7 @@ def func_address(*args):
 
 
 @user_error
-def func_change(*args):
+def func_change_phone(*args):
     rec_id = args[0].lower()
     old_phone = func_normalize_phone(args[1])
     new_phone = func_normalize_phone(args[2])
@@ -188,7 +187,8 @@ def func_change(*args):
 @user_error
 def func_phone(*args):
     rec_id = args[0]
-    return f"Phone(s) of {rec_id} is {book.get(rec_id).phones[0]}"
+    phones_str = "; ".join(p.value for p in book.get(rec_id).phones)
+    return f"Phone(s) of {rec_id}: {phones_str}"
 
 
 def func_hello(*args):
@@ -229,7 +229,7 @@ def func_find(args):
                 line += f"{record}\n"
         if len(line) == 0:
             return f'the search for key "{args[0]}" gave no results. Try other key.'
-        print(f'result for "{args[0]}" search:')
+        print(f'result for "{args[:]}" search:')
         return line
     return "Please enter 3 or more symbols for search"
 
@@ -263,18 +263,18 @@ EXIT = {command: func_good_bye for command in exit_commands}
 
 FUNCTIONS = {
     "hello": func_hello,
-    "add": func_add,
+    "add record": func_add,
+    "add address": func_address,
+    "add birthday": add_birthday,
+    "add email": add_email,
     "edit record": func_edit_record,
-    "change": func_change,
-    "phone": func_phone,
-    "show all": func_show_all,
-    "show": func_show,
-    "find": func_find,
-    "email_add": add_email,
-    "adress_add": func_address,
-    "birthday_add": add_birthday,
-    "remove": func_remove,
+    "change phone": func_change_phone,
+    "phone of": func_phone,
+    "show all records": func_show_all,
+    "show records": func_show,
+    "find record": func_find,
+    "remove record": func_remove,
     "sort folder": func_sort_folder,
-    "days": func_birthdays_within_days,
+    "birthdays within days": func_birthdays_within_days,
     "": unknown,
 }
