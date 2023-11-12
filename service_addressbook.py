@@ -2,6 +2,7 @@ from datetime import datetime
 from birthday_functions import func_birthdays_within_days
 from addressbook import AddressBook, Record
 from pathlib import Path
+from servicenote import note_book
 import sort
 import re
 
@@ -204,8 +205,16 @@ def func_sort_folder(*args):
         return sort.main(path)
     else:
         return f"The path {path} does not exist."
+    
+def func_good_bye():
+    book.save()
+    note_book.save_data()
+    print(f"Good bye!")
+    exit()
 
 
+exit_commands = ["good bye", "close", "exit"]
+EXIT = {command: func_good_bye for command in exit_commands}
 
 FUNCTIONS = {
     "hello": func_hello,
