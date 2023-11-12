@@ -4,12 +4,11 @@ from terminal_tips import completer
 from prompt_toolkit import prompt
 
 
-
-
 COMMANDS = {}
 COMMANDS.update(EXIT)
 COMMANDS.update(OPERATORS)
 COMMANDS.update(FUNCTIONS)
+COMMANDS = dict(sorted(COMMANDS.items(), reverse=True))
 
 
 def parser(text: str):
@@ -20,7 +19,7 @@ def parser(text: str):
 
 def main():
     while True:
-        user_input = prompt('>>>', completer=completer)
+        user_input = prompt(">>>", completer=completer)
         func, data = parser(user_input.lower())
         current_func = COMMANDS.get(func)
         print(current_func(*data))
