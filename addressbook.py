@@ -46,65 +46,36 @@ class Phone(Field):
 
     @value.setter
     def value(self, new_value):
-        if len(new_value) != 10 or not new_value.isdigit():
-            raise ValueError
+        if not re.match(r'^\d{10}$', new_value):
+            raise ValueError("Некорректный номер телефона. Номер должен содержать 10 цифр.")
         self.__value = new_value
-
-
-class Birthday(Field):
-    def __init__(self):
-        super().__init__()
-        self.__value = "unknown"
-
-    @property
-    def value(self):
-        return self.__value
-
-    @value.setter
-    def value(self, new_value: datetime):
-        if type(new_value) != datetime:
-            raise ValueError
-        else:
-            self.__value = new_value.date()
 
 
 class Email(Field):
     def __init__(self):
         super().__init__()
-        self.__value = "no email"
+        self.__value = None
 
     @property
     def value(self):
         return self.__value
-
+    
     @value.setter
     def value(self, new_value: str):
-        self.__value = new_value
-
-
-class Address(Field):
-    def __init__(self):
-        super().__init__()
-        self.__value = "no address"
-
-    @property
-    def value(self):
-        return self.__value
-
-    @value.setter
-    def value(self, new_value: str):
+        if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', new_value):
+            raise ValueError("Некорректный email.")
         self.__value = new_value
 
 
 class Record:
-    def __init__(self, name: Name):
+    def __init__(self, name: Name, address = '',email = '' ):
         new_name = Name()
         new_name.value = name
         self.name = new_name
         self.phones = []
-        self.birthday = Birthday()
-        self.email = Email()
-        self.address = Address()
+        self.birthday = Birthday() 
+        self.email = email
+        self.address = address
 
     def add_phone(self, phone):
         new_phone = Phone(phone)
