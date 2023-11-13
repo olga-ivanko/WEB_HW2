@@ -65,7 +65,7 @@ def func_add_note(*args):
             note_book.add_note(title, input_text)
             return f"New note with {title} was saved"
     else:
-        question = input(f"Note {title} already exist. Want ещ edit note? (Y/N)")
+        question = input(f"Note {title} already exist. Want to edit note? (Y/N)")
         if question == "y".casefold():
             return func_edit_note(*args)
         else:
