@@ -1,2 +1,0 @@
-[console_scripts]
-perass = group2.main:main

@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: perass
-Version: 0.1.0
-Summary: personal_assistant_cli
-Home-page: https://github.com/olga-ivanko/Personal-Assistant.git
-Author: GoIT_students_Matriarchy
-License: MIT
-Requires-Dist: prompt_toolkit>=3.0.40
