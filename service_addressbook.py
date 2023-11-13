@@ -3,6 +3,7 @@ from birthday_functions import func_birthdays_within_days
 from addressbook import AddressBook, Record
 from pathlib import Path
 from servicenote import note_book
+import help_func
 import sort
 import re
 
@@ -40,7 +41,7 @@ def func_normalize_phone(phone):
 
 
 def unknown(*args):
-    return "Unknown command. Try again."
+    return "Unknown command. Try again or use help."
 
 
 @user_error
@@ -70,7 +71,9 @@ def func_add(*args):
                 )
                 contact_birthday = new_birthday.date().strftime("%d %B %Y")
                 new_record.add_birthday(new_birthday)
-                print(f"Birthday {contact_birthday} added to user {new_record.name.value}")
+                print(
+                    f"Birthday {contact_birthday} added to user {new_record.name.value}"
+                )
             elif user_input == "email":
                 user = input("Enter email: ")
                 new_email = user
@@ -160,6 +163,7 @@ def add_email(*args):
     return f"Email { book.find(rec_id).email.value} added to record {rec_id}"
 
 
+@user_error
 def func_address(*args):
     rec_id = args[0]
     address = args[1]
@@ -228,7 +232,7 @@ def func_find(args):
             if len(found_rec) != 0:
                 line += f"{record}\n"
         if len(line) == 0:
-            return f'the search for key "{args[0]}" gave no results. Try other key.'
+            return f'the search for key "{args[:]}" gave no results. Try other key.'
         print(f'result for "{args[:]}" search:')
         return line
     return "Please enter 3 or more symbols for search"
@@ -276,5 +280,9 @@ FUNCTIONS = {
     "remove record": func_remove,
     "sort folder": func_sort_folder,
     "birthdays within days": func_birthdays_within_days,
+    "help": help_func.func_help,
     "": unknown,
 }
+
+if __name__ == "__main__":
+    help()
