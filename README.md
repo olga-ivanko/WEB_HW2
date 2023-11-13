@@ -10,16 +10,13 @@ CLI script for notes and contacts storage, have a function to sort a files in de
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
-
-
 
 ## Installation
 
 git clone https://github.com/olga-ivanko/Personal-Assistant.git
 
 ```
-pip <...>
+pip <pip install group2_final project>
 ```
 
 # Usage
@@ -31,7 +28,3 @@ pip <...>
 pip install prompt_toolkit
 ...
 3) use command help for commands review
-
-## Configuration
-
-- <`config_file`>
