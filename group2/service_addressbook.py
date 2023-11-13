@@ -249,7 +249,7 @@ def func_sort_folder(*args):
     user_input = input("Enter directory path: ")
     path = Path(user_input)
     if path.exists():
-        return group2.sort.main(path)
+        return sort.main(path)
     else:
         return f"The path {path} does not exist."
 
