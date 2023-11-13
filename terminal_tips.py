@@ -8,24 +8,30 @@ COMMANDS.update(EXIT)
 COMMANDS.update(OPERATORS)
 COMMANDS.update(FUNCTIONS)
 
-
-def func_completer(COMANDS: dict):
+def func_completer(COMMANDS: dict):
     comp_dict = {}
-    sorted_comand = sorted(COMANDS.keys())
+    sorted_comand = sorted(COMMANDS.keys())
     for key in sorted_comand[1:]:
-        matching_key = next((existing_key for existing_key in comp_dict.keys() if key.startswith(existing_key)), None)
-        if matching_key is None:
-            comp_dict[key] = None
+        words = key.split()
+        first_word = words[0]  
+        rest_of_key = ' '.join(words[1:]) if len(words) > 1 else None
+        if first_word not in comp_dict:
+            comp_dict[first_word] = {rest_of_key} if rest_of_key else None
         else:
-            key_suffix = key[len(matching_key):].strip()
-            if comp_dict[matching_key] is None:
-                comp_dict[matching_key] = {key_suffix}  
+            if rest_of_key:
+                if comp_dict[first_word] is None:
+                    comp_dict[first_word] = {rest_of_key}
+                else:
+                    comp_dict[first_word].add(rest_of_key)
             else:
-                comp_dict[matching_key].add(key_suffix) 
+                comp_dict[first_word] = None
     return comp_dict
+
+
 
 completer = NestedCompleter.from_nested_dict(func_completer(COMMANDS))
 
-
+if __name__ == '__main__':
+    print(func_completer(COMMANDS))
 
     
