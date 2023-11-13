@@ -40,7 +40,7 @@ def func_help():
             + "\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}\n\033[34m{}\033[0m{}".format(
                 "add note <titel>",
                 "  -> follow the instructions to create new note",
-                "add tags",
+                "add tags <titel>",
                 "  -> addes new tags to existing note",
                 "edit note <titel>",
                 "  -> follow the instructions to edit existing note",
