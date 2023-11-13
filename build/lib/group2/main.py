@@ -19,7 +19,7 @@ def parser(text: str):
 
 def main():
     while True:
-        user_input = prompt(">>>", completer=completer, mouse_support=True)
+        user_input = prompt(">>>", completer=completer)
         func, data = parser(user_input.lower())
         current_func = COMMANDS.get(func)
         print(current_func(*data))
