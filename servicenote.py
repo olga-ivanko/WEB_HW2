@@ -152,7 +152,7 @@ OPERATORS = {
     "edit note": func_edit_note,  # edit note заголовок --> далі по підказкам
     "edit tags": func_edit_tags,  # edit tags заголовок --> далі по підказкам
     "show notes": func_show_notes,  # show notes  (тут без заголовку)
-    "show note": func_search_notes,  # show note (будь яку слово з заголовку або #тег)
+    "find note": func_search_notes,  # show note (будь яку слово з заголовку або #тег)
     "sort notes": func_sort_notes,  # sort notes (без аргументів) - сортує, виводить та зберігає новий порядок нотатків, сортування за кількістю тегів, як замовляв викладач
     "delete notes": func_delete_notes # якщо вказати заголовок, то видалиться запис, якщо без аргументів, то видаляться всі записи, після підтвердження видалення
 

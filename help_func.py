@@ -46,7 +46,7 @@ def func_help():
                 "  -> follow the instructions to edit existing note",
                 "edit tags <titel>",
                 "  -> follow the instraction to edit tags in existing note",
-                "show note <title> / <tag>",
+                "find note <title> / <tag>",
                 "  -> shows notes based on defined search pattern",
                 "show notes",
                 "  -> shows all existing notes",
