@@ -1,4 +1,4 @@
-from group2.notebook import NoteBook
+from notebook import NoteBook
 
 note_book = NoteBook()
 note_book.load_data()
@@ -60,7 +60,7 @@ def func_add_note(*args):
         if tags:
             note_book.add_note(title, input_text, tags)
             tags_str = " ".join(x for x in tags)
-            return f"New note with {title} and tags:{tags_str} was saved"  # тут напевно щось треба написати серйозніше
+            return f"New note with title: {title} and tags: {tags_str} was saved"  # тут напевно щось треба написати серйозніше
         else:
             note_book.add_note(title, input_text)
             return f"New note with {title} was saved"

@@ -1,6 +1,6 @@
-from group2.servicenote import OPERATORS
-from group2.service_addressbook import FUNCTIONS, EXIT
-from group2.terminal_tips import completer
+from servicenote import OPERATORS
+from service_addressbook import FUNCTIONS, EXIT
+from terminal_tips import completer
 from prompt_toolkit import prompt
 
 

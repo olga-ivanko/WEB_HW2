@@ -1,5 +1,5 @@
 from datetime import datetime
-import group2.service_addressbook 
+import service_addressbook
 
 def func_birthdays_within_days():
     
@@ -12,7 +12,7 @@ def func_birthdays_within_days():
     current_date = datetime.now().date()
 
     matching_birthdays = []
-    for record in group2.service_addressbook.book.values():
+    for record in service_addressbook.book.values():
         if record.birthday.value != "unknown":
             days_to_birthday = record.days_to_birthday()
             if 0 <= days_to_birthday <= days:
