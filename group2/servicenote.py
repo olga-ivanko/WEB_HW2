@@ -60,12 +60,12 @@ def func_add_note(*args):
         if tags:
             note_book.add_note(title, input_text, tags)
             tags_str = " ".join(x for x in tags)
-            return f"New note with {title} and tags:{tags_str} was saved"  # тут напевно щось треба написати серйозніше
+            return f"New note with title: {title} and tags: {tags_str} was saved"  # тут напевно щось треба написати серйозніше
         else:
             note_book.add_note(title, input_text)
             return f"New note with {title} was saved"
     else:
-        question = input(f"Note {title} already exist. Want ещ edit note? (Y/N)")
+        question = input(f"Note {title} already exist. Want to edit note? (Y/N)")
         if question == "y".casefold():
             return func_edit_note(*args)
         else:
