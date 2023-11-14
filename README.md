@@ -16,7 +16,7 @@ CLI script for notes and contacts storage, have a function to sort a files in de
 git clone https://github.com/olga-ivanko/Personal-Assistant.git
 
 ```
-pip <pip install group2_final project>
+pip install group2_final project
 ```
 
 # Usage

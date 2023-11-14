@@ -1,10 +1,10 @@
 from datetime import datetime
-from birthday_functions import func_birthdays_within_days
-from addressbook import AddressBook, Record
+from .birthday_functions import func_birthdays_within_days
+from .addressbook import AddressBook, Record
 from pathlib import Path
-from servicenote import note_book
-import help_func
-import sort
+from .servicenote import note_book
+from . import help_func
+from . import sort
 import re
 
 
