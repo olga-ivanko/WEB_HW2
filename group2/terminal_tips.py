@@ -1,6 +1,6 @@
 from prompt_toolkit.completion import NestedCompleter
-from group2.service_addressbook import FUNCTIONS, EXIT
-from group2.servicenote import OPERATORS
+from .service_addressbook import FUNCTIONS, EXIT
+from .servicenote import OPERATORS
 
 
 COMMANDS = {}

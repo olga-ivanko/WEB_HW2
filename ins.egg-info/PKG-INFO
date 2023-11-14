@@ -1,6 +1,0 @@
-Metadata-Version: 2.1
-Name: ins
-Version: 0.1.0
-Summary: some text
-Author: Name
-Requires-Dist: prompt_toolkit
