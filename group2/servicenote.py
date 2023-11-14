@@ -1,4 +1,4 @@
-from group2.notebook import NoteBook
+from .notebook import NoteBook
 
 note_book = NoteBook()
 note_book.load_data()

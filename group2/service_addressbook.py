@@ -1,10 +1,10 @@
 from datetime import datetime
-from group2.birthday_functions import func_birthdays_within_days
-from group2.addressbook import AddressBook, Record
+from .birthday_functions import func_birthdays_within_days
+from .addressbook import AddressBook, Record
 from pathlib import Path
-from group2.servicenote import note_book
-import group2.help_func
-import group2.sort
+from .servicenote import note_book
+from . import help_func
+from . import sort
 import re
 
 
@@ -249,7 +249,7 @@ def func_sort_folder(*args):
     user_input = input("Enter directory path: ")
     path = Path(user_input)
     if path.exists():
-        return group2.sort.main(path)
+        return sort.main(path)
     else:
         return f"The path {path} does not exist."
 
@@ -280,7 +280,7 @@ FUNCTIONS = {
     "remove record": func_remove,
     "sort folder": func_sort_folder,
     "birthdays within days": func_birthdays_within_days,
-    "help": group2.help_func.func_help,
+    "help": help_func.func_help,
     "": unknown,
 }
 
