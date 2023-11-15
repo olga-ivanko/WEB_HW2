@@ -24,6 +24,8 @@ def user_error(func):
             return "Unknown or wrong format. Try again"
         except AttributeError:
             return "Contacts was not found"
+        except TypeError:
+            return "Use command help"
 
     return inner
 
@@ -224,16 +226,19 @@ def func_show(*args):
 def func_find(args):
     if len(args) > 2:
         line = ""
+        keyword = "".join(args)
         for record in book.values():
             str_rec = str(record.name)
+            str_rec += str(record.address)
+            str_rec += str(record.email)
             for ph in record.phones:
                 str_rec += str(ph)
-            found_rec = re.findall(args[0], str_rec)
+            found_rec = re.findall(keyword, str_rec)
             if len(found_rec) != 0:
                 line += f"{record}\n"
         if len(line) == 0:
-            return f'the search for key "{args[:]}" gave no results. Try other key.'
-        print(f'result for "{args[:]}" search:')
+            return f'the search for key "{keyword}" gave no results. Try other key.'
+        print(f'result for "{keyword}" search:')
         return line
     return "Please enter 3 or more symbols for search"
 

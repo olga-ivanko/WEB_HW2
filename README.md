@@ -16,15 +16,12 @@ CLI script for notes and contacts storage, have a function to sort a files in de
 git clone https://github.com/olga-ivanko/Personal-Assistant.git
 
 ```
-pip install group2_final project
+pip install group2_final_project
 ```
 
 # Usage
 
 1) install the package
 
-2) install the "prompt_toolkit":
-...
-pip install prompt_toolkit
-...
-3) use command help for commands review
+2) pip install prompt_toolkit
+
