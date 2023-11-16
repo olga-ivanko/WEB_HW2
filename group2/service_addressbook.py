@@ -110,10 +110,10 @@ def func_edit_record(*args):
         user_input2 = input("").lower().strip().split()
         if user_input2[0] == "change":
             record.edit_phone(user_input2[1], user_input2[2])
-            return f"Record updated as:\n {record}"
+            return f"Record updated as:\n{record}"
         elif " ".join(user_input2[:2]) == "add phone":
             record.add_phone(user_input2[2])
-            return f"Record updated as:\n {record}"
+            return f"Record updated as:\n{record}"
         else:
             return unknown()
     elif user_input == "email":
@@ -121,12 +121,12 @@ def func_edit_record(*args):
             print(f"current email is {record.email.value}.")
         user_input2 = input("Print new email:\n").lower().strip()
         record.email.value = user_input2
-        return f"Record updated as: {record}"
+        return f"Record updated as:\r{record}"
     elif user_input == "address":
         print(f"current addess is {record.address.value}.")
         user_input2 = input("Print new address:\n").lower().strip()
         record.address.value = user_input2
-        return f"Record updated as: {record}"
+        return f"Record updated as:\r{record}"
     elif user_input == "birthday":
         if record.birthday.value:
             print(f"current birthday is {record.birthday.value}.")
@@ -137,7 +137,7 @@ def func_edit_record(*args):
                 day=int(user_input2[:2]),
             )
             record.add_birthday(new_birthday)
-            return f"Record updated as:\n {record}"
+            return f"Record updated as:\r{record}"
     else:
         return unknown()
 
