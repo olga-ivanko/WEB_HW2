@@ -25,4 +25,3 @@ def func_birthdays_within_days():
     for record in matching_birthdays:
         result += f"{record}\n"
     return result
-

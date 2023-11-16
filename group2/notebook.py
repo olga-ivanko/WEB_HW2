@@ -48,14 +48,16 @@ class NoteBook(UserDict):
     def __str__(self, title_to_print=None):
         if title_to_print:
             note = self.data.get(title_to_print)
-            return "\n<<<{}>>>\n{}\ntags: {}\n".format(
+            return "\n\033[34m<<<{}>>>\033[0m\n{}\n\033[34mtags:\033[0m {}\n".format(
                 title_to_print, note["text"], note["tags"]
             )
         else:
             result = ""
             for title, note in self.data.items():
-                result += "\n<<<{}>>>\n{}\ntags: {}\n".format(
-                    title, note["text"], note["tags"]
+                result += (
+                    "\n\033[34m<<<{}>>>\033[0m\n{}\n\033[34mtags:\033[0m {}\n".format(
+                        title, note["text"], note["tags"]
+                    )
                 )
             return result
 
@@ -63,11 +65,11 @@ class NoteBook(UserDict):
         file_name = "note.bin"
         try:
             load_dir = Path(__file__).resolve().parent
-            file_path = load_dir.joinpath(file_name) 
+            file_path = load_dir.joinpath(file_name)
             with open(file_path, "rb") as fb:
                 self.data = pickle.load(fb)
                 print(
-                    f"AddressBook with {len(self.data)} notes is succesfuly uploaded"
+                    f"\033[32mNoteBook with {len(self.data)} notes is succesfuly uploaded\033[0m"
                 )
                 return self.data
         except FileNotFoundError:
@@ -76,8 +78,8 @@ class NoteBook(UserDict):
     def save_data(self):
         file_name = "note.bin"
         save_dir = Path(__file__).resolve().parent
-        file_path = save_dir.joinpath(file_name) 
+        file_path = save_dir.joinpath(file_name)
         with open(file_path, "wb") as fb:
             pickle.dump(self.data, fb)
-            print("NoteBook is saved as note.bin")
+            print("\033[32mNoteBook is saved as note.bin\033[0m")
         return None

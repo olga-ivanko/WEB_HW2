@@ -82,7 +82,7 @@ class Email(Field):
 
     @value.setter
     def value(self, new_value: str):
-        if not re.match(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', new_value):
+        if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", new_value):
             raise ValueError("Check mail format")
         self.__value = new_value
 
@@ -142,32 +142,68 @@ class Record:
 
     def days_to_birthday(self):
         today = datetime.now().date()
-        if today <= self.birthday.value.replace(year=today.year):
+        if today < self.birthday.value.replace(year=today.year):
             next_bd = self.birthday.value.replace(year=today.year)
             days_to_bd = next_bd - today
             return days_to_bd.days
+        elif today == self.birthday.value.replace(year=today.year):
+            next_bd = self.birthday.value.replace(year=today.year)
+            days_to_bd = next_bd - today
+            return f"\033[31mtoday\033[0m"
         else:
             next_bd = self.birthday.value.replace(year=today.year + 1)
             days_to_bd = next_bd - today
             return days_to_bd.days
 
     def __str__(self):
-        if self.birthday.value != "unknown":
-            return "Contact name: {:<5}| phones: {:<12}| birthday: {} ({} days to birthday), email: {}, address: {}".format(
-                self.name.value,
-                "; ".join(p.value for p in self.phones),
-                self.birthday.value,
-                self.days_to_birthday(),
-                self.email.value,
-                self.address.value,
+        start_line = "\u250d" + "\u2500" * 210 + "\u2511" + "\n"
+        phone_fuller = "  \u2502{: <44}\u2502{: <39}\u2502{: <72}\u2502\n\u2502{: >30}\u2502{: >9}".format(
+            " ", " ", " ", " ", " "
+        )
+        separation_line = "\n\u2515" + "\u2500" * 210 + "\u2519" + "\n"
+
+        if (
+            self.birthday.value != "unknown"
+            and self.days_to_birthday() != f"\033[31mtoday\033[0m"
+        ):
+            return (
+                start_line
+                + "\u2502 \033[34mContact name:\033[0m {: <15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} (\033[34m{: <3}\033[0m days to birthday)\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                    self.name.value,
+                    f"{phone_fuller}".join(p.value for p in self.phones),
+                    self.birthday.value,
+                    self.days_to_birthday(),
+                    self.email.value,
+                    self.address.value,
+                )
+                + separation_line
             )
 
-        else:
-            return "Contact name: {:<5}| phones: {:<12}| email: {}| address: {}".format(
-                self.name.value,
-                "; ".join(p.value for p in self.phones),
-                self.email,
-                self.address,
+        elif self.birthday.value == "unknown":
+            return (
+                start_line
+                + "\u2502 \033[34mContact name:\033[0m {:<15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {: <33}\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                    self.name.value,
+                    f"{phone_fuller}".join(p.value for p in self.phones),
+                    self.birthday.value,
+                    self.email.value,
+                    self.address.value,
+                )
+                + separation_line
+            )
+
+        elif self.days_to_birthday() == f"\033[31mtoday\033[0m":
+            return (
+                start_line
+                + "\u2502 \033[34mContact name:\033[0m {:<15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} {: ^31}\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                    self.name.value,
+                    f"{phone_fuller}".join(p.value for p in self.phones),
+                    self.birthday.value,
+                    self.days_to_birthday(),
+                    self.email.value,
+                    self.address.value,
+                )
+                + separation_line
             )
 
 
@@ -204,11 +240,11 @@ class AddressBook(UserDict):
         file_name = "book.bin"
         try:
             load_dir = Path(__file__).resolve().parent
-            file_path = load_dir.joinpath(file_name) 
+            file_path = load_dir.joinpath(file_name)
             with open(file_path, "rb") as fb:
                 self.data = pickle.load(fb)
                 print(
-                    f"AddressBook with {len(self.data)} contacts is succesfuly uploaded"
+                    f"\033[32mAddressBook with {len(self.data)} contacts is succesfuly uploaded\033[0m"
                 )
                 return self.data
         except FileNotFoundError:
@@ -217,8 +253,8 @@ class AddressBook(UserDict):
     def save(self):
         file_name = "book.bin"
         save_dir = Path(__file__).resolve().parent
-        file_path = save_dir.joinpath(file_name) 
+        file_path = save_dir.joinpath(file_name)
         with open(file_path, "wb") as fb:
             pickle.dump(self.data, fb)
-            print("AddressBook is saved as book.bin")
+            print("\033[32mAddressBook is saved as book.bin\033[0m")
         return None
