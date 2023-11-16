@@ -102,12 +102,12 @@ def func_edit_record(*args):
     record = book.find(rec_id)
     print(record)
     print(f"type what needs to be changed:\n  phone / email / address / birthday")
-    user_input = input("").lower()
+    user_input = input("").strip().lower()
     if user_input == "phone":
         print(
             "type next command:\n add phone <new number>\n change <old number> <new number>"
         )
-        user_input2 = input("").lower().split()
+        user_input2 = input("").lower().strip()
         if user_input2[0] == "change":
             record.edit_phone(user_input2[1], user_input2[2])
             return f"Record updated as:\n {record}"
@@ -121,12 +121,12 @@ def func_edit_record(*args):
             print(f"current email is {record.email.value}.")
         user_input2 = input("Print new email:\n").lower().strip()
         record.email.value = user_input2
-        return f"Record updated as:\n {record}"
+        return f"Record updated as: {record}"
     elif user_input == "address":
         print(f"current addess is {record.address.value}.")
         user_input2 = input("Print new address:\n").lower().strip()
         record.address.value = user_input2
-        return f"Record updated as:\n {record}"
+        return f"Record updated as: {record}"
     elif user_input == "birthday":
         if record.birthday.value:
             print(f"current birthday is {record.birthday.value}.")
@@ -168,7 +168,7 @@ def add_email(*args):
 @user_error
 def func_address(*args):
     rec_id = args[0]
-    address = args[1]
+    address = " ".join(args[1:])
     if not rec_id in book:
         return "Not user"
     book.find(rec_id).add_address(address)
@@ -207,7 +207,7 @@ def func_show_all(*args):
         return f"Your contacts list is empty"
     line = ""
     for record in book.values():
-        line += f"{record}\n"
+        line += f"{record}\r"
     return line
 
 
