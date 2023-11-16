@@ -107,7 +107,7 @@ def func_edit_record(*args):
         print(
             "type next command:\n add phone <new number>\n change <old number> <new number>"
         )
-        user_input2 = input("").lower().strip()
+        user_input2 = input("").lower().strip().split()
         if user_input2[0] == "change":
             record.edit_phone(user_input2[1], user_input2[2])
             return f"Record updated as:\n {record}"
