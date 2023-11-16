@@ -102,7 +102,7 @@ def func_edit_record(*args):
     record = book.find(rec_id)
     print(record)
     print(f"type what needs to be changed:\n  phone / email / address / birthday")
-    user_input = input("").stip().lower()
+    user_input = input("").strip().lower()
     if user_input == "phone":
         print(
             "type next command:\n add phone <new number>\n change <old number> <new number>"
