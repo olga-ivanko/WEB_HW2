@@ -1,5 +1,5 @@
-# ПРИ ЗАПУСКУ БЕЗ УСТАНОВКИ БУДУТЬ ВИКОРИСТОВУВАТИСЬ ФАЙЛИ С УСТАНОВЛЕНОї ВЕРСІЇ, або помилка (якщо не встановлено). 
-# Користуйся  offline_main.py
+#цей файл потрібний для роботи з асистентом без установки. Він не прописаний в setup.py, він та і не потрібен.
+# При установці буде використовуватися той що в папці group2. 
 from group2.servicenote import OPERATORS
 from group2.service_addressbook import FUNCTIONS, EXIT
 from group2.terminal_tips import my_input
