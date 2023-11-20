@@ -1,7 +1,9 @@
 from prompt_toolkit.completion import NestedCompleter
-from .service_addressbook import FUNCTIONS, EXIT
-from .servicenote import OPERATORS
+from group2.service_addressbook import FUNCTIONS, EXIT
+from group2.servicenote import OPERATORS
+from prompt_toolkit import PromptSession
 
+session = PromptSession()
 
 COMMANDS = {}
 COMMANDS.update(EXIT)
@@ -27,9 +29,12 @@ def func_completer(COMMANDS: dict):
                 comp_dict[first_word] = None
     return comp_dict
 
-
-
 completer = NestedCompleter.from_nested_dict(func_completer(COMMANDS))
+
+def my_input():
+    user_input = session.prompt(">>>", completer=completer, mouse_support=True)
+    return user_input
+
 
 if __name__ == '__main__':
     print(func_completer(COMMANDS))

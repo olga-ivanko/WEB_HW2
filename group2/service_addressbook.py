@@ -12,20 +12,28 @@ book = AddressBook()
 book.load()
 
 
+def longest_params() -> dict:
+    longest_name = max(book, key=len)
+    longest_email = max([book[rec].email for rec in book], key=len)   
+    longest_address = max([book[rec].address for rec in book], key=len)  
+    sum_params = len(longest_name)+len(longest_email)+len(longest_address)
+    long_dict = {"name": len(longest_name), "email": len(longest_email),"address": len(longest_address), "sum":sum_params+103 }
+    return long_dict
+
 def user_error(func):
     def inner(*args):
         try:
             return func(*args)
         except IndexError:
             return "Not enough params. Use help."
-        except KeyError:
-            return "Unknown rec_id. Try another or use help."
-        except ValueError:
-            return "Unknown or wrong format. Try again"
-        except AttributeError:
-            return "Contacts was not found"
-        except TypeError:
-            return "Use command help"
+        # except KeyError:
+        #     return "Unknown rec_id. Try another or use help."
+        # except ValueError:
+        #     return "Unknown or wrong format. Try again"
+        # except AttributeError:
+        #     return "Contacts was not found"
+        # except TypeError:
+        #     return "Use command help"
 
     return inner
 
@@ -62,11 +70,11 @@ def func_add(*args):
     if len(args) >= 2:
         while True:
             user_input = input(
-                f"type field to add: \n  email / address / birthday \n type back to save\n"
+                f"chose key to add: \n  \033[34m E\033[0mmail / \033[34m A\033[0mddress / \033[34m B\033[0mirthday \n type 'save' to save\n"
             ).lower()
-            if user_input == "back":
+            if user_input == "save":
                 break
-            if user_input == "birthday":
+            if user_input == "b".casefold():
                 user = input("Enter birthday: ")
                 new_birthday = datetime(
                     year=int(user[6:]), month=int(user[3:5]), day=int(user[:2])
@@ -76,12 +84,12 @@ def func_add(*args):
                 print(
                     f"Birthday {contact_birthday} added to user {new_record.name.value}"
                 )
-            elif user_input == "email":
+            elif user_input == "e".casefold():
                 user = input("Enter email: ")
                 new_email = user
                 new_record.add_email(new_email)
                 print(f"Email {new_email} added to user {new_record.name.value}")
-            elif user_input == "address":
+            elif user_input == "a".casefold():
                 user = input("Enter address: ")
                 new_address = user
                 new_record.add_address(new_address)
