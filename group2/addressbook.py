@@ -36,6 +36,9 @@ class Name(Field):
     def value(self, new_value):
         self.__value = new_value
 
+    def __str__(self):
+        return self.__value
+
 
 class Phone(Field):
     def __init__(self, value):
@@ -85,7 +88,12 @@ class Email(Field):
         if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", new_value):
             raise ValueError("Check mail format")
         self.__value = new_value
-
+    
+    def __str__(self):
+        return self.__value
+    
+    def __len__(self):
+        return len(self.__value) 
 
 class Address(Field):
     def __init__(self):
@@ -99,6 +107,9 @@ class Address(Field):
     @value.setter
     def value(self, new_value: str):
         self.__value = new_value
+    
+    def __len__(self):
+        return len(self.__value) 
 
 
 class Record:
@@ -154,13 +165,19 @@ class Record:
             next_bd = self.birthday.value.replace(year=today.year + 1)
             days_to_bd = next_bd - today
             return days_to_bd.days
+        
+
 
     def __str__(self):
-        start_line = "\u250d" + "\u2500" * 210 + "\u2511" + "\n"
+        from .service_addressbook import longest_params
+        longest = longest_params()
+        print (longest['name'])
+    
+        start_line = "\u250d" + "\u2500" * longest['sum'] + "\u2511" + "\n"
         phone_fuller = "  \u2502{: <44}\u2502{: <39}\u2502{: <72}\u2502\n\u2502{: >30}\u2502{: >9}".format(
             " ", " ", " ", " ", " "
         )
-        separation_line = "\n\u2515" + "\u2500" * 210 + "\u2519" + "\n"
+        separation_line = "\n\u2515" + "\u2500" * longest['sum'] + "\u2519" + "\n"
 
         if (
             self.birthday.value != "unknown"
@@ -168,26 +185,33 @@ class Record:
         ):
             return (
                 start_line
-                + "\u2502 \033[34mContact name:\033[0m {: <15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} (\033[34m{: <3}\033[0m days to birthday)\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                + "\u2502 \033[34mContact name:\033[0m {: <{width1}}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} (\033[34m{: <3}\033[0m days to birthday)\u2502  \033[34memail:\033[0m {: <{width2}}\u2502 \033[34maddress:\033[0m {: <{width3}}\u2502".format(
                     self.name.value,
                     f"{phone_fuller}".join(p.value for p in self.phones),
                     self.birthday.value,
                     self.days_to_birthday(),
                     self.email.value,
                     self.address.value,
+                    width1 = longest['name'],
+                    width2 = longest['email'],
+                    width3 = longest['address']
                 )
                 + separation_line
             )
+            
 
         elif self.birthday.value == "unknown":
             return (
                 start_line
-                + "\u2502 \033[34mContact name:\033[0m {:<15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {: <33}\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                + "\u2502 \033[34mContact name:\033[0m {: <{width1}}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {: <33}\u2502  \033[34memail:\033[0m {: <{width2}}\u2502 \033[34maddress:\033[0m {: <{width3}}\u2502".format(
                     self.name.value,
                     f"{phone_fuller}".join(p.value for p in self.phones),
                     self.birthday.value,
                     self.email.value,
                     self.address.value,
+                    width1 = longest['name'],
+                    width2 = longest['email'],
+                    width3 = longest['address']
                 )
                 + separation_line
             )
@@ -195,17 +219,24 @@ class Record:
         elif self.days_to_birthday() == f"\033[31mtoday\033[0m":
             return (
                 start_line
-                + "\u2502 \033[34mContact name:\033[0m {:<15}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} {: ^31}\u2502  \033[34memail:\033[0m {: <30}\u2502 \033[34maddress:\033[0m {: <62}\u2502".format(
+                + "\u2502 \033[34mContact name:\033[0m {: <{width1}}\u2502 \033[34mphones:\033[0m {}  \u2502 \033[34mbirthday:\033[0m {} {: ^31}\u2502  \033[34memail:\033[0m {: <{width2}}\u2502 \033[34maddress:\033[0m {: <{width3}}\u2502".format(
                     self.name.value,
                     f"{phone_fuller}".join(p.value for p in self.phones),
                     self.birthday.value,
                     self.days_to_birthday(),
                     self.email.value,
                     self.address.value,
+                    width1 = longest['name'],
+                    width2 = longest['email'],
+                    width3 = longest['address']
                 )
                 + separation_line
             )
+        
 
+   
+
+        
 
 class AddressBook(UserDict):
     def add_record(self, record: Record):
@@ -258,3 +289,5 @@ class AddressBook(UserDict):
             pickle.dump(self.data, fb)
             print("\033[32mAddressBook is saved as book.bin\033[0m")
         return None
+
+
