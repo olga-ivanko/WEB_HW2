@@ -172,7 +172,7 @@ class Record:
             next_bd = self.birthday.value.replace(year=today.year + 1)
             days_to_bd = next_bd - today
             return days_to_bd.days
-        
+
     def __str__(self):
         printer = ConsoleRecordPrinter()
         return printer.print_record(self)
@@ -186,8 +186,15 @@ class ConsoleRecordPrinter(RecordPrinter):
         # print (longest['name'])
 
         start_line = "\u250d" + "\u2500" * longest["sum"] + "\u2511" + "\n"
-        phone_fuller = "  \u2502{: <44}\u2502{: <39}\u2502{: <72}\u2502\n\u2502{: >30}\u2502{: >9}".format(
-            " ", " ", " ", " ", " "
+        phone_fuller = "  \u2502{: <44}\u2502{: <{width2}}\u2502{: <{width3}}\u2502\n\u2502{: >{width1}}\u2502{: >9}".format(
+            " ",
+            " ",
+            " ",
+            " ",
+            " ",
+            width2=longest["email"] + 9,
+            width3=longest["address"] + 10,
+            width1=longest["name"]+  15
         )
         separation_line = "\n\u2515" + "\u2500" * longest["sum"] + "\u2519" + "\n"
 
