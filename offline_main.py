@@ -3,6 +3,7 @@
 from group2.servicenote import OPERATORS
 from group2.service_addressbook import FUNCTIONS, EXIT
 from group2.terminal_tips import my_input
+from flask import Flask
 
 COMMANDS = {}
 COMMANDS.update(EXIT)
@@ -15,6 +16,11 @@ def parser(text: str):
         if text.startswith(func):
             return func, text[len(func) :].strip().split()
 
+
+app = Flask(__name__)
+
+
+@app.route("/")
 def main():
     while True:
         user_input = my_input()
@@ -24,4 +30,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=False, host="0.0.0.0")
